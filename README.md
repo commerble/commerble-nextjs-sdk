@@ -1,2 +1,2 @@
-# commerble4bff
+# Commerble Next.js SDK
 JavaScript libs for next.js
