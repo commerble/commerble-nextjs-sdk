@@ -123,13 +123,17 @@ const httpProxyMiddleware = async (
   });
 
 function commerbleHttpProxyMiddleware(req: NextApiRequest, res: NextApiResponse) {
-   return httpProxyMiddleware(req, res, {
+  const headers = {};
+  if (process.env.CBPAAS_AUTHZ) {
+    headers['Authorization'] = process.env.CBPAAS_AUTHZ;
+  }
+  if (process.env.CBPAAS_TEMPLATE_SUFFIX) {
+    headers['X-Template-Suffix'] = process.env.CBPAAS_TEMPLATE_SUFFIX;
+  }
+  return httpProxyMiddleware(req, res, {
     target: process.env.CBPAAS_EP,
     changeOrigin: true,
-    headers: {
-      'Authorization': process.env.CBPAAS_AUTHZ,
-      'X-Template-Suffix': 'Json',
-    },
+    headers,
     pathRewrite: [
       {
         patternStr: '^' + process.env.BFF_API_PATH,

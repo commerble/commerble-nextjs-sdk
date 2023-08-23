@@ -13,7 +13,6 @@ export type CommerbleCartLine = {
     orderAmount: number
     linePrice: number
     tax: number
-    thumbnail: string
     description: string|null
     reserveRequestId: number
 }
@@ -174,10 +173,12 @@ export type CommerbleOrderInfo = CommerbleCart & {
 export type CommerblePurchaseExternal = {
     type: 'purchase/external'
     state: CommerbleViewState
+    items: CommerbleCartLine[]
 } & CommerbleOrderInfo
 export type CommerblePurchaseComplete = {
     type: 'purchase/complete'
     state: CommerbleViewState
+    items: CommerbleCartLine[]
 } & CommerbleOrderInfo
 export type CommerblePurchaseError = {
     type: 'purchase/error'
@@ -185,6 +186,7 @@ export type CommerblePurchaseError = {
 export type CommerblePurchaseCallback = {
     type: 'purchase/callback'
     state: CommerbleViewState
+    items: CommerbleCartLine[]
 } & CommerbleCart
 export type CommerbleSiteLogin = {
     type: 'site/login'
