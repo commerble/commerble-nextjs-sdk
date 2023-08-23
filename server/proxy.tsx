@@ -96,11 +96,11 @@ const httpProxyMiddleware = async (
       }) as any)
       .once("proxyRes", ((proxyRes: any, req: any, res: any): void => {
         if (proxyRes.headers['location'] && locationRewrite) {
-            const location = proxyRes.headers['location'];
+            const location = proxyRes.headers['location'].toLowerCase();
             proxyRes.headers['location'] = rewritePath(location, locationRewrite);
             const dst = new URL(location, 'http://localhost/').pathname;
             const src = new URL(proxyRes.req.path, 'http://localhost/').pathname;
-            if (proxyRes.req.path !== location && !/purchase\/\d+$/i.test(dst) && !/site\/logout$/i.test(src)) {
+            if (proxyRes.req.path.toLowerCase() !== location && !/purchase\/\d+$/i.test(dst) && !/site\/logout$/i.test(src)) {
               proxyRes.statusCode = 202;
             }
         }

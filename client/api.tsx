@@ -13,6 +13,7 @@ const nexts = {
     'purchase/confirm': /purchase\/\d+\/confirm$/i,
     'purchase/external': /purchase\/\d+\/external\/\d+$/i,
     'purchase/complete': /purchase\/\d+\/complete\/\d+$/i,
+    'order/cart': /order\/cart/i,
     'order/history': /order\/history\/\d+$/i,
     'order/historylist': /order\/history$/i,
     'member/index': /member\/index$/i,
@@ -103,8 +104,16 @@ export function appendLines(lines: CommerbleCartInRequest): Promise<CommerbleOrd
     return _getCarts(BFF_PREFIX + '/order/cart?' + query);
 };
 
-export function removeLine(target: CommerbleCartLine): Promise<CommerbleOrderCart> {
-    return _getCarts(BFF_PREFIX + '/order/cartitemdelete?item='+target.productId);
+export async function removeLine(target: CommerbleCartLine): Promise<CommerbleOrderCart> {
+    const body = new FormData();
+    body.append('X-HTTP-Method-Override', 'delete');
+    body.append('item', target.productId.toString());
+    body.append('itemdelete', 'itemdelete');
+    const res = await fetch(BFF_PREFIX + '/order/cart', {
+        method: 'post',
+        body
+    });
+    return await _handleJson(res);
 };
 
 export async function updateQty(cart: CommerbleCartItems, target: CommerbleCartLine, diff: number): Promise<CommerbleOrderCart> {
