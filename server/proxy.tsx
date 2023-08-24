@@ -101,6 +101,9 @@ const httpProxyMiddleware = async (
             const dst = new URL(location, 'http://localhost/').pathname;
             const src = new URL(proxyRes.req.path, 'http://localhost/').pathname;
             if (proxyRes.req.path.toLowerCase() !== location && !/purchase\/\d+$/i.test(dst) && !/site\/logout$/i.test(src)) {
+              if (proxyRes.statusCode === 302 || proxyRes.statusCode === 303 || proxyRes.statusCode === 307) {
+                proxyRes.headers['cache-control'] = 'no-store'
+              }
               proxyRes.statusCode = 202;
             }
         }
