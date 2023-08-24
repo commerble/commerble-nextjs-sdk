@@ -1,2 +1,2 @@
 # Commerble Next.js SDK
-JavaScript libs for next.js
+JavaScript libs for Next.js
