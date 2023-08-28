@@ -428,7 +428,7 @@ export async function modifyCustomer(form: CommerbleOrderHistoryCustomerForm): P
     for (const [key, value] of Object.entries(form.serviceValues ?? {})) {
         body.append(`ServiceValues[${key}]`, value);
     }
-    const res = await fetch(BFF_PREFIX + `/order/history/${form.id}`, {
+    const res = await fetch(BFF_PREFIX + `/order/history/${form.id}?__proxybypass=1`, {
         method: 'post',
         body
     });
@@ -469,7 +469,7 @@ export async function modifyDelivery(form: CommerbleOrderHistoryDeliveryForm): P
     body.append('DeliveryOrder.hourRange', form.deliveryOrder.hourRange||null);
     body.append('DeliveryOrder.wrappingType', form.deliveryOrder.wrappingType?.toString()||null);
     body.append('DeliveryOrder.senderName', form.deliveryOrder.senderName||null);
-    const res = await fetch(BFF_PREFIX + `/order/history/${form.id}`, {
+    const res = await fetch(BFF_PREFIX + `/order/history/${form.id}?__proxybypass=1`, {
         method: 'post',
         body
     });
@@ -487,7 +487,7 @@ export async function modifyPayment(form: CommerbleOrderHistoryPaymentForm): Pro
         body.append('OrderCustomer.NumberOfPayments', form.orderCustomer.numberOfPayments);
     }
 
-    const res = await fetch(BFF_PREFIX + `/order/history/${form.id}`, {
+    const res = await fetch(BFF_PREFIX + `/order/history/${form.id}?__proxybypass=1`, {
         method: 'post',
         body
     });
